@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from django.template.response import TemplateResponse
 from django.template import Context
@@ -6,6 +7,7 @@ from django.template import Context
 from collections import defaultdict
 from json import dumps
 
+this_folder = os.cwd()
 
 def clean_text(line):
     
