@@ -7,7 +7,7 @@ from django.template import Context
 from collections import defaultdict
 from json import dumps
 
-this_folder = os.cwd()
+this_folder = os.getcwd()
 
 def clean_text(line):
     
