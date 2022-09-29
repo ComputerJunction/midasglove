@@ -1,0 +1,32 @@
+     
+      <div id="div_sic" class="accordion">
+
+          
+          {%for header, value in sics.items %}
+
+            <div class="accordion-item">
+                
+                <h2 id="{{header|cut:" "}}-heading" class="accordion-header">
+                    
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#{{header|cut:" "}}-item" aria-expanded="true" 
+                            aria-controls="{{header|cut:" "}}-item">
+                        
+                        {{header}}
+                        
+                    </button>
+                    
+                </h2>
+                
+                <div id="{{header|cut:" "}}-item" class="accordion-collapse collapse" aria-labelledby="{{header|cut:" "}}-heading">
+                    
+                    {% for body in value %}
+                    <div class="accordion-body">
+                        {{body}}
+                    </div>
+                    {% endfor%}
+                </div>
+          </div>
+          
+          
+          {% endfor %}
+      </div>

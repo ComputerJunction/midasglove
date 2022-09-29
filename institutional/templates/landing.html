@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include "head_base.html"%}
+
+
+<body class="d-flex h-100 text-center">
+<article class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    {% include "nav_base.html"%}
+
+    {% block content %}
+    <article class="px-3">
+        <h1>Where is all the money?</h1>
+        <p class="lead"> I wanted to collect more information to make better investment decisions.  I wanted to more information in order to create more relationships between the main street economy and the Wall Street market.</p>
+        <p class="lead"> I then wanted more and more information to understand how money flows through the securities markets.  I then wante dto understand the overarching economic factors that contribute to good investment decisions.</p>
+        <p class="lead"> This the marriage of all the micro and macro economic data with a sprinkle of accounting principles and functions.</p>
+        <p class="last_line"> If you had a place to stand and all the data together in one place could you move the investing world.</p>
+    </article>
+    {% endblock %}
+</article>
+
+</body>
+
+</html>

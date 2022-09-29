@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+{% include './head_base.html' %}
+    
+<body class="container-fluid">
+    
+
+    {% include './nav_base.html' %}
+     
+    <div class="vstack gap-3">
+        
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div id="div_banner_ad" class="col">
+                    <img src="{% static '/images/leaderboard.jpg' %}"> 
+                </div>
+
+            </div>
+            
+            <div class="row">
+                
+                <div id="top_blurb" class="col">
+                    
+                    {%block topblurb%}This is an extra blurb{%endblock%}
+                
+                </div>
+            
+            
+            </div>
+        </div>
+
+
+
+
+        <div class="container-fluid">
+
+            <div class="row justify-content-md-center"> 
+
+                <div id="div_main_content" class="col">
+
+                     {% block content %}This is the Main Content Section {%endblock%}
+
+                </div>
+
+
+
+                <div id="div_rside_ad" class="col col-auto">
+                    <img src="{% static '/images/bigbox.jpg' %}">
+                </div>
+
+            </div>
+
+
+        </div>
+        
+        
+        <div class="container-fluid">
+
+            <div class="vstack gap-3">
+
+                <div class='row'> 
+                    <div id="div_footer_ad" class='col'>
+                        <img src="{% static '/images/leaderboard.jpg' %}">
+                    </div>
+                </div>
+
+
+                <div class="row">
+
+                    {%include './footer_base.html' %}
+
+                </div>
+
+
+            </div>
+
+        </div>
+        
+        
+    </div>
+
+    
+    
+    
+    
+
+</body>
+    
+    {% block scripts %}{%endblock%}
+
+
+</html>
