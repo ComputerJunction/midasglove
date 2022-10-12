@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{%block topblurb%}
+<h1>BEA Industries</h1>
+<article>The industries use commodities.  </article>
+{%endblock%}
+
+  <section id="body_cik" class="container-fluid">
+
+      {% include "_base.html" %}
+
+   </section>
+
+
+{% block content %}
+<table id="table_id" class="table">
+
+      <thead>
+        <tr>
+
+
+            <th scope='col'>Industry Code</th>
+            <th scope='col'>Industry Name</th>
+
+
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for value in object_list%}
+        <tr>
+
+            <td><a href="{{value.get_absolute_url}}">{{value.industry_code}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.industry}}</a></td>
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+
+{%endblock%}
+
+{% block scripts %}
+{%endblock%}

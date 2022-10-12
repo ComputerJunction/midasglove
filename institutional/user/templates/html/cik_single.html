@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{%block topblurb%}
+<h1>Selection of a CIK Entity - Cusips - Links will link to a Graph of Who Owns this Cusip</h1>
+<h1>{{name}}</h1>
+{%endblock%}
+
+{% block content %}
+<table id="table_id" class="table">
+
+      <thead>
+        <tr>
+
+
+            <th scope='col'>NAME</th>
+            <th scope='col'>CIK</th>
+            <th scope='col'>CUSIP</th>
+            <th scope='col'>CUSIP DESC</th>
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for value in object_list%}
+        <tr>
+
+            <td><a href="{{value.get_absolute_url}}">{{value.name}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.long_cik}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.issuance}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.issuance_desc}}</a></td>
+
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+
+
+{%endblock%}
+

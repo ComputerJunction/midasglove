@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-# Register your models here. so they show in admin page
-from .models import AuthUser, PCikAndCusip,PCikmap
+from .models import AuthUser, SicNaics
 
+# Register your models here. so they show in admin page
 
 admin.site.register(AuthUser)
-admin.site.register(PCikAndCusip)
-admin.site.register(PCikmap)
+admin.site.register(SicNaics)
+

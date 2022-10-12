@@ -26,13 +26,13 @@ SECRET_KEY = 'django-insecure-)ep#z%5b_%n*q^yx3e7t6wx)7=#=$760r6o-v$hj3w5$yq$e2q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['computerjunction.pythonanywhere.com']
 
+SETTINGS_DIR = os.path.dirname(__file__)
 
 # Application definition
 
 INSTALLED_APPS = [
-    'investor',
     'user',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -58,8 +58,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/investor/',
-            '/user/',
+            os.path.join(BASE_DIR, 'user/templates'),
             os.path.join(BASE_DIR, 'templates')
         ],
         'APP_DIRS': True,
@@ -82,11 +81,19 @@ WSGI_APPLICATION = 'institutional.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'data',
-        'USER': 'ivan',
-        'PASSWORD': 'player',
-        'HOST': 'localhost'
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'oldmoney',
+        #'USER': 'ivan',
+        #'PASSWORD': 'player',
+        #'HOST': 'computerjunction-2851.postgres.pythonanywhere-services.com',
+        #'PORT':12851
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'computerjunction$default',
+        'USER': 'computerjunction',
+        'PASSWORD': 'playerplayer',
+        'HOST': 'computerjunction.mysql.pythonanywhere-services.com',
+
+
     }
 }
 
@@ -129,7 +136,9 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-]
+
+    ]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

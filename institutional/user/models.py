@@ -1,7 +1,9 @@
 from distutils.sysconfig import customize_compiler
 from django.db import models
-from django.db import connection
 from django_pandas.io import read_frame
+from collections import defaultdict
+from json import dumps
+from django.urls import reverse
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
@@ -114,96 +116,256 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+###########################################
+
+class AppleTest(models.Model):
+    cik = models.CharField(max_length=20, blank=True, primary_key = True)
+    shares = models.CharField(max_length=100, blank=True, null=True)
+    report_date = models.CharField(max_length=100, blank=True, null=True)
+
+    @classmethod
+    def return_df(self):
+
+        obj = AppleTest.objects.all()
+
+        df = read_frame(obj)
+
+        return df
+
+    @classmethod
+    def return_json(self):
+
+        df = self.return_df()
+
+        js = df.to_json()
+
+        return js
+
+    @classmethod
+    def graph(self):
+
+        obj = AppleTest.objects.all().values()
+
+        cik = defaultdict(dict)
+
+        arr = []
+
+        for d in obj:
+
+            for inner in d:
+
+                if inner == 'cik':
+
+                    if d['report_date'] in ['19990630', '19991231']:
+
+                        cik[d[inner]][d['report_date']] = int(float(d['shares']))
+
+        for j in cik:
 
 
-class PCikAndCusip(models.Model):
-    report_date = models.CharField(max_length=25, blank=True, null=True)
-    cik = models.CharField(max_length=120, blank=True, null=False, primary_key=True)
-    cusip = models.CharField(max_length=10, blank=True, null=True)
-    year = models.CharField(max_length=6, blank=True, null=True)
-    cusip6 = models.CharField(max_length=10, blank=True, null=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
+
+            if len(cik[j]) > 1:
+
+                cik[j]['name'] = j
+                arr.append(cik[j])
+
+
+        return dumps(arr)
+
+
+
 
     class Meta:
         managed = False
-        db_table = 'p_cik_and_cusip'
+        db_table = 'apple_test'
 
-    def return_json():
-
-        context = PCikAndCusip.objects.all()
-        
-        context = read_frame(context)
-
-        context = context.to_json()
-
-        return context
-       
+class BeaCommodity(models.Model):
+    commodity_code = models.CharField(max_length=10, blank=True, null=True)
+    commodity = models.CharField(max_length=50, blank=True, null=True)
+    id = models.AutoField(primary_key=True)
 
 
-class PCikTicker(models.Model):
-    cik = models.CharField(max_length=20, blank=True, null=False, primary_key=True)
-    ticker = models.CharField(max_length=10, blank=True, null=True)
-    name = models.CharField(max_length=100, blank=True, null=True)
+    def __str__(self):
+        return f'Name:{self.commodity} - Commodity Code:{self.commodity_code}'
 
     class Meta:
         managed = False
-        db_table = 'p_cik_ticker'
+        db_table = 'bea_commodity'
 
 
-class PCikToCusip(models.Model):
-    cik = models.CharField(max_length=120, blank=True, null=False, primary_key=True)
-    cusip = models.CharField(max_length=10, blank=True, null=True)
-    year = models.CharField(max_length=6, blank=True, null=True)
-    cusip6 = models.CharField(max_length=10, blank=True, null=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
+class BeaIndustry(models.Model):
+    industry_code = models.CharField(max_length=20, blank=True, null=True)
+    industry = models.CharField(max_length=50, blank=True, null=True)
+    id = models.AutoField(primary_key=True)
 
-    class Meta:
-        managed = False
-        db_table = 'p_cik_to_cusip'
+    def get_absolute_url(self):
 
+        return reverse('industry_single', args=[str(self.id)])
 
-class PCikmap(models.Model):
-    name = models.CharField(max_length=200, blank=True, null=True)
-    report_date = models.CharField(max_length=25, blank=True, null=True)
-    cik = models.CharField(max_length=15, blank=True, null=False, primary_key=True)
-
-    
-    class Meta:
-        managed = False
-        db_table = 'p_cikmap'
-
-
-class PComByInd(models.Model):
-    commodity = models.CharField(max_length=200, blank=True, null=False, primary_key=True)
-    industry = models.CharField(max_length=200, blank=True, null=True)
-    value = models.CharField(max_length=20, blank=True, null=True)
-    commodity_code = models.CharField(max_length=100, blank=True, null=True)
-    industry_code = models.CharField(max_length=100, blank=True, null=True)
+    def __str__(self):
+        return f'Name:{self.industry} - Industry Code:{self.industry_code}'
 
     class Meta:
         managed = False
-        db_table = 'p_com_by_ind'
+        db_table = 'bea_industry'
 
+class Cik(models.Model):
 
-class PForm13F(models.Model):
-    cik = models.CharField(max_length=50, blank=True, null=False, primary_key=True)
-    cusip = models.CharField(max_length=50, blank=True, null=True)
+    id = models.BigAutoField(primary_key=True)
+    short_cik = models.CharField(max_length=15, blank=True, null=True)
+    investor = models.CharField(max_length=500, blank=True, null=True)
+    long_cik = models.CharField(max_length=15, blank=True, null=True)
+    ticker = models.CharField(max_length=12, blank=True, null=True)
+
+    def __str__(self):
+
+        return f"Cik Name:{self.investor} - Long Cik:{self.long_cik}"
+
+    def get_absolute_url(self):
+
+        return reverse('cik_single', args=[str(self.id)])
+
+    class Meta:
+        managed = False
+        db_table = 'cik'
+
+class Cusip(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+
+    short_issuance = models.CharField(max_length=7, blank=True, null=True)
+    issuance = models.CharField(max_length=10, blank=True, null=True)
+    issuance_desc = models.CharField(max_length=500, blank=True, null=True)
+
+    cik_id = models.ForeignKey('Cik', db_column='cik_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Cik.id+')
+
+    def __str__(self):
+
+        return f" Cusip Name:{self.sec_name} - Cusip Number:{self.issuance}"
+
+    def get_absolute_url(self):
+
+        return reverse('ii_single', args=[str(self.id)])
+
+    class Meta:
+        managed = False
+        db_table = 'cusip'
+
+class Dates(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    form_date = models.CharField(max_length=20, blank=True, null=True)
+    year = models.CharField(max_length=5, blank=True, null=True)
+    day = models.CharField(max_length=5, blank=True, null=True)
+    month = models.CharField(max_length=5, blank=True, null=True)
+
+    def __str__(self):
+
+        return f"Date:{self.form_date}"
+
+    def get_absolute_url(self):
+        pass
+
+    class Meta:
+        managed = False
+        db_table = 'dates'
+
+class FileType(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+    file_type = models.CharField(max_length=15, blank=True, null=True)
+
+    def __str__(self):
+
+        return f"File Type:{self.file_type}"
+
+    def get_absolute_url(self):
+        pass
+
+    class Meta:
+        managed = False
+        db_table = 'file_type'
+
+class Form13F(models.Model):
+
+    id = models.BigAutoField(db_column='id', primary_key=True)
     shares = models.CharField(max_length=50, blank=True, null=True)
-    report_date = models.CharField(max_length=50, blank=True, null=True)
-    file_date = models.CharField(max_length=50, blank=True, null=True)
-    file_type = models.CharField(max_length=50, blank=True, null=True)
+
+    cik_id = models.ForeignKey('Cik', db_column='cik_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Cik.id+')
+    cusip = models.ForeignKey('Cusip', db_column='cusip_id', on_delete=models.DO_NOTHING, db_index=False, related_name = "Cusip.issuance+")
+    #report_date_id = models.ForeignKey('Dates', db_column='report_date_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Dates.id+')
+    #file_date_id =models.ForeignKey('Dates', db_column='file_date_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Dates.id+')
+    #file_type_id = models.ForeignKey('FileType', db_column='file_type_id', on_delete=models.DO_NOTHING, db_index=True, related_name='FileType.id+')
+
+    def __str__(self):
+
+        return f"SHARES: {self.shares} - {self.cusip}"
+
+    def get_absolute_url(self):
+        pass
+
 
     class Meta:
         managed = False
-        db_table = 'p_form13f'
+        db_table = 'form13f'
+
+class IndustryValues(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    value = models.CharField(max_length=20, blank=True, null=True)
+    commodity_id = models.ForeignKey('BeaCommodity', db_column="commodity_id", on_delete=models.DO_NOTHING, db_index=False, related_name = "BeaCommodity.id+")
+    industry_id = models.ForeignKey('BeaIndustry', db_column="industry_id", on_delete=models.DO_NOTHING, db_index=False, related_name = "BeaIndustry.id+")
+
+    def __str__(self):
+
+        return f"Commodity Key:{self.commodity_id} - Industry Key: {self.industry_id}"
+
+    def get_absolute_url(self):
+        pass
 
 
-class PSicToNaics(models.Model):
-    sic = models.CharField(max_length=10, blank=True, null=False, primary_key=True)
-    sic_desc = models.CharField(max_length=200, blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'industry_values'
+
+
+class SicNaics(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    sic = models.CharField(max_length=10, blank=True, null=True)
+    sic_desc = models.CharField(max_length=100, blank=True, null=True)
     naics = models.CharField(max_length=20, blank=True, null=True)
     naics_desc = models.CharField(max_length=200, blank=True, null=True)
+    sec_code = models.CharField(max_length=5, blank=True, null=True)
+    sec_desc = models.CharField(max_length=150, blank=True, null=True)
+    sec_sub_desc = models.CharField(max_length=150, blank=True, null=True)
+
+
+    def get_absolute_url(self):
+        pass
+
+
+    def __str__(self):
+        return f'SIC:{self.sic_desc} - NAICS:{self.naics_desc} - SEC:{self.sec_sub_desc}'
+
+
+    @classmethod
+    def return_df(self):
+
+        obj = SicNaics.objects.all()
+
+        df = read_frame(obj)
+
+        return df
+
+    @classmethod
+    def return_json(self):
+
+        df = self.return_df()
+
+        js = df.to_json()
+
+        return js
+
 
     class Meta:
         managed = False
-        db_table = 'p_sic_to_naics'
+        db_table = 'sic_naics'

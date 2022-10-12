@@ -20,8 +20,24 @@ from . import views
 
 urlpatterns = [
 
-    path('', views.user, name='user'),
+    path('', views.landing, name='landing'),
 
-    path('cik/', views.cik, name='cik'),
-    
+    path('cik/', views.cik.as_view(), name='cik'),
+
+    path('cik/<int:id>', views.cik_single.as_view(), name='cik_single'),
+
+    path('ii', views.ii.as_view(), name='ii'),
+
+    path('ii/<int:id>', views.ii_single.as_view(), name='ii_single'),
+
+    path('investor/<str:cik>', views.ii_double.as_view(), name='ii_double'),
+
+    path('industry/', views.industry.as_view(), name='industry'),
+
+    path('industry/<int:id>', views.industry_single.as_view(), name='industry_single'),
+
+    path('sicnaics/', views.sic_naics.as_view(), name='sic_naics'),
+
+    path('apple/', views.apple, name='apple'),
+
 ]

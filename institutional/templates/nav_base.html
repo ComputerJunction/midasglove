@@ -1,17 +1,18 @@
 {% load static %}
 
 <nav id="nav_nav" class="sticky-top navbar navbar-expand-lg">
-            
+
     <div class="container-fluid">
-                
+
         <div class="row align-items-center">
             <div class="col">
                 <a id="a_logo" class="navbar-brand" href="{% url 'landing' %}" title="Home Page">
                     <img id="img_logo" src="{% static '/images/android-chrome-192x192.png' %}" alt="Logo I I"
                  width="40" height="50">
+                 <span> Midas Glove - Connecting the Dots</span>
                 </a>
             </div>
-            <div class="col col-md-auto"> Midas Glove - Connecting the Dots</div>
+
 
         </div>
 
@@ -19,7 +20,7 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#div_nav" aria-controls="div_nav" aria-expanded="false" aria-label="Toggle Navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div id="div_nav" class="collapse navbar-collapse">
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -33,45 +34,43 @@
                 </li>
                 <li class="nav-item">
 
-                    <a class="nav-link" aria-current="page" href="{% url 'sic' %}">
-                        SEC Standard Industrial Classification
-                    </a>
-
-                </li>
-                <li class="nav-item">
-
-                    <a class="nav-link" aria-current="page" href="{% url 'inv' %}">
-                        Institutional Investors
-                    </a>
-
-                </li>
-                <li class="nav-item">
-
-                    <a class="nav-link" aria-current="page" href="{% url 'sec' %}">
-                        Securities
-                    </a>
-
-                </li>
-                <li class="nav-item">
-
-                    <a class="nav-link" aria-current="page" href="{% url 'graph' %}">
-                        Graph
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
-                    <a class="nav-link" aria-current="page" href="{% url 'user' %}">
-                        User
-                    </a>
-
-                </li>
-
-                <li class="nav-item">
-
                     <a class="nav-link" aria-current="page" href="{% url 'cik' %}">
-                        Cik
+                        Central Index Key - Cusip - Ticker
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" aria-current="page" href="{% url 'industry' %}">
+                        Industry Inputs
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" aria-current="page" href="{% url 'ii' %}">
+                        Institutional Investor List
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" aria-current="page" href="{% url 'sic_naics' %}">
+                        Sic to Naics
+                    </a>
+
+                </li>
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link" aria-current="page" href="{% url 'apple' %}">
+                        Apple
                     </a>
 
                 </li>
@@ -80,17 +79,17 @@
 
                     <a class="nav-link" href="{% url 'login' %}"title="Login">Login</a>
                 </li>
-               
+
                 <li class="nav-item">
 
                     <a class="nav-link" href="{% url 'logout' %}?next={{request.path}}"title="Logout">Logout</a>
                 </li> {% endcomment %}
 
-                
+
 
             </ul>
 
-        </div> 
+        </div>
     </div>
-</nav> 
-    
+</nav>
+

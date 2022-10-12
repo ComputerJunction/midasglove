@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{%block topblurb%}
+<h1>Industry Single Entity {{industry_name}}</h1>
+{%endblock%}
+
+{% block content %}
+
+<table id="table_id" class="table">
+
+      <thead>
+        <tr>
+
+
+            <th scope='col'>Commodity Code</th>
+            <th scope='col'>Value - Industry {{industry_name}} Consumes</th>
+
+
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for ind in object_list%}
+        <tr>
+
+            <td><a href="{{ind.get_absolute_url}}">{{ind.commodity_id}}</a></td>
+            <td><a href="{{ind.get_absolute_url}}">{{ind.value}}</a></td>
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+
+
+{%endblock%}
+

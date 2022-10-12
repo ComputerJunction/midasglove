@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{%block topblurb%}
+<h1>Standard Industrial Classification along side NAICS </h1>
+{%endblock%}
+
+{% block content %}
+<table id="table_id" class="table">
+
+      <thead>
+        <tr>
+
+
+            <th scope='col'>Sic Code</th>
+            <th scope='col'>Sic Name</th>
+
+            <th scope='col'>NAICS Code</th>
+            <th scope='col'>NAICS Name</th>
+
+
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for value in object_list%}
+        <tr>
+
+            <td><a href="{{value.get_absolute_url}}">{{value.sic}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.sic_desc}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.naics}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.naics_desc}}</a></td>
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+{%endblock%}
+
+{% block scripts %}
+
+
+{%endblock%}

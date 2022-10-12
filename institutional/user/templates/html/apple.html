@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{% block content %} <h1>Apple</h1>
+{%endblock%}
+
+{% block scripts %}
+
+    <script>var context = JSON.parse("{{context|escapejs}}")</script>
+
+    <script src="{% static 'script/d3.min.js' %}"></script>
+
+    <script src="{% static 'script/graph.js' %}"></script>
+
+
+    {%endblock%}
