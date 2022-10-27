@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from django.shortcuts import get_object_or_404
 
-from .models import AppleTest, BeaIndustry, Cik, Cusip, Form13F, IndustryValues, SicNaics
+from .models import AppleTest, BeaIndustry, Cik, Cusip, CikCusip, Form, IndustryValues, MicroTest, NumTest, SicNaics
 
 def table_process(dit):
 
@@ -18,6 +18,31 @@ def landing(request):
 
     return render(request, 'landing.html')
 
+def apple(request):
+
+    context = AppleTest.graph()
+
+    return render(request, './html/apple.html', {'context':context})
+
+def micro(request):
+
+    context = MicroTest.graph()
+
+    return render(request, './html/apple.html', {'context':context})
+
+class nums(ListView):
+
+    template_name = './html/nums.html'
+
+    model = NumTest
+
+    def get_context_data(self, **kwargs):
+
+        context = NumTest.table()
+
+        return context
+
+
 class cik(ListView):
 
     template_name = './html/cik.html'
@@ -32,13 +57,35 @@ class cik_single(ListView):
 
     template_name = './html/cik_single.html'
 
-    model = Cusip
+    model = CikCusip
 
     def get_queryset(self, *args, **kwargs):
 
         pk = self.kwargs['id']
 
-        return Cusip.objects.filter(cik_id=pk)
+        return CikCusip.objects.filter(cik_id=pk)
+
+    #def get_context_data(self, **kwargs):
+
+        #context = super().get_context_data(**kwargs)
+
+        #pk = self.kwargs['id']
+
+        #context['industry_name'] = BeaIndustry.objects.get(id = pk)
+
+        #return context
+
+class form_entries(ListView):
+
+    template_name = './html/form_entries.html'
+
+    model = Form
+
+    def get_queryset(self, *args, **kwargs):
+
+        pk = self.kwargs['id']
+
+        return Form.objects.filter(cik_id=pk)[:30]
 
 
 class industry(ListView):
@@ -70,39 +117,15 @@ class industry_single(ListView):
 
         return context
 
-class ii(ListView):
+class investor(ListView):
 
-    template_name = './html/ii.html'
+    template_name = './html/investor.html'
 
-    model = Form13F
-
-    def get_queryset(self, *args, **kwargs):
-
-        return Form13F.objects.filter(cusip_id=1)[:3]
-
-
-class ii_single(ListView):
-
-    #Limit to 1 for testing
-
-    template_name = './html/ii_single.html'
-
-    model = Form13F
-
-
-class ii_double(ListView):
-
-    #Limit to 1 for testing
-
-    template_name = './html/ii_double.html'
-
-    #model = Form13F
+    model = Cik
 
     def get_queryset(self, *args, **kwargs):
 
-        pk = self.kwargs['cik']
-
-        return Form13F.objects.filter(cik=pk).order_by('id')[:3]
+        return Cik.objects.exclude(investors__isnull=True)
 
 
 class sic_naics(ListView):
@@ -112,12 +135,6 @@ class sic_naics(ListView):
     model = SicNaics
 
 
-
-def apple(request):
-
-    context = AppleTest.graph()
-
-    return render(request, './html/apple.html', {'context':context})
 
 
 

@@ -81,22 +81,24 @@ WSGI_APPLICATION = 'institutional.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.postgresql',
-        #'NAME': 'oldmoney',
-        #'USER': 'ivan',
-        #'PASSWORD': 'player',
-        #'HOST': 'computerjunction-2851.postgres.pythonanywhere-services.com',
-        #'PORT':12851
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'computerjunction$default',
+        'NAME': 'computerjunction$oldmoney',
         'USER': 'computerjunction',
         'PASSWORD': 'playerplayer',
         'HOST': 'computerjunction.mysql.pythonanywhere-services.com',
 
 
-    }
-}
+    },
+    #'newmoney':{
+        #'ENGINE': 'django.db.backends.postgresql',
+        #'NAME': 'newmoney',
+        #'USER': 'ivan',
+        #'PASSWORD': 'player',
+        #'HOST': 'computerjunction-2851.postgres.pythonanywhere-services.com',
+        #'PORT':12851}
+#}
 
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

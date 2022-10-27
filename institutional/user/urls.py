@@ -26,11 +26,9 @@ urlpatterns = [
 
     path('cik/<int:id>', views.cik_single.as_view(), name='cik_single'),
 
-    path('ii', views.ii.as_view(), name='ii'),
+    path('investor', views.investor.as_view(), name='investor'),
 
-    path('ii/<int:id>', views.ii_single.as_view(), name='ii_single'),
-
-    path('investor/<str:cik>', views.ii_double.as_view(), name='ii_double'),
+    path('investor/<int:id>', views.form_entries.as_view(), name='form_entries'),
 
     path('industry/', views.industry.as_view(), name='industry'),
 
@@ -39,5 +37,9 @@ urlpatterns = [
     path('sicnaics/', views.sic_naics.as_view(), name='sic_naics'),
 
     path('apple/', views.apple, name='apple'),
+
+    path('micro/', views.micro, name='micro'),
+
+    path('nums/', views.nums.as_view(), name='nums')
 
 ]

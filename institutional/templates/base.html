@@ -3,33 +3,47 @@
 <html lang="en">
 
 {% include './head_base.html' %}
-    
+
 <body class="container-fluid">
-    
+
 
     {% include './nav_base.html' %}
-     
+
+    <div width="100%">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7525910399433491" crossorigin="anonymous"></script>
+                    <!-- H_AD -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7525910399433491"
+                         data-ad-slot="1707265193"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    </div>
+
     <div class="vstack gap-3">
-        
+
         <div class="container-fluid">
 
             <div class="row">
 
-                <div id="div_banner_ad" class="col">
-                    <img src="{% static '/images/leaderboard.jpg' %}"> 
+                <div class="col">
+
                 </div>
 
             </div>
-            
+
             <div class="row">
-                
+
                 <div id="top_blurb" class="col">
-                    
+
                     {%block topblurb%}This is an extra blurb{%endblock%}
-                
+
                 </div>
-            
-            
+
+
             </div>
         </div>
 
@@ -38,7 +52,7 @@
 
         <div class="container-fluid">
 
-            <div class="row justify-content-md-center"> 
+            <div class="row justify-content-md-center">
 
                 <div id="div_main_content" class="col">
 
@@ -48,23 +62,49 @@
 
 
 
-                <div id="div_rside_ad" class="col col-auto">
-                    <img src="{% static '/images/bigbox.jpg' %}">
+                <div class="col col-auto">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7525910399433491" crossorigin="anonymous"></script>
+                    <!-- V_AD -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-7525910399433491"
+                         data-ad-slot="2567268332"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
             </div>
 
 
         </div>
-        
-        
+
+        <div width="100%">
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7525910399433491" crossorigin="anonymous"></script>
+                        <!-- HF_AD -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-7525910399433491"
+                             data-ad-slot="2942672853"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+
+
+        </div>
+
+
         <div class="container-fluid">
 
             <div class="vstack gap-3">
 
-                <div class='row'> 
-                    <div id="div_footer_ad" class='col'>
-                        <img src="{% static '/images/leaderboard.jpg' %}">
+                <div class='row'>
+                    <div class='col'>
+
                     </div>
                 </div>
 
@@ -79,17 +119,17 @@
             </div>
 
         </div>
-        
-        
+
+
     </div>
 
-    
-    
-    
-    
+
+
+
+
 
 </body>
-    
+
     {% block scripts %}{%endblock%}
 
 

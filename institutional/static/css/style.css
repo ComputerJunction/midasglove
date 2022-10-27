@@ -8,21 +8,31 @@ html, body{
 
     background-color: #FFFFFF;
 
+    font-family: sans-serif;
+
+    color: #000;
+
 }
+th, td { white-space: nowrap; }
 
-html, body, h1, h2, h3, h4, h5, h6 {
+body {
 
-    font: normal normal 1em monospace;
+    font-family: "Lucida Grande",Helvetica,Arial,sans-serif;
+
+    font-weight: 400;
+
+    font-style: normal;
 
     padding: 0px;
 
     margin: 0px;
 
-}
+    line-height: 1.5;
 
-p {
+    -webkit-font-smoothing: antialiased;
 
-    text-align:start;
+    display: block;
+
 }
 
 p::first-letter {
@@ -209,7 +219,6 @@ u {
     padding: 0px;
 }
 
-}
 
 #div_footer {
 
@@ -224,6 +233,7 @@ u {
 
 .bigger {
 
+    text-align: center;
     font-size: 2em;
 
 }

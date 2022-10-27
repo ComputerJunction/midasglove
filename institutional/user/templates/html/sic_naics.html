@@ -12,11 +12,14 @@
         <tr>
 
 
-            <th scope='col'>Sic Code</th>
-            <th scope='col'>Sic Name</th>
+            <th scope='col'>SIC Code</th>
+            <th scope='col'>SIC Name</th>
 
             <th scope='col'>NAICS Code</th>
             <th scope='col'>NAICS Name</th>
+
+            <th scope='col'>SEC SIC Code</th>
+            <th scope='col'>SEC SIC Name</th>
 
 
 
@@ -34,6 +37,8 @@
             <td><a href="{{value.get_absolute_url}}">{{value.sic_desc}}</a></td>
             <td><a href="{{value.get_absolute_url}}">{{value.naics}}</a></td>
             <td><a href="{{value.get_absolute_url}}">{{value.naics_desc}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.sec_code}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.sec_desc}}</a></td>
 
         </tr>
         {% endfor %}
@@ -46,5 +51,7 @@
 
 {% block scripts %}
 
+
+    <script charset="utf-8" src="{% static 'script/datatable.js' %}"></script>
 
 {%endblock%}

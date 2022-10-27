@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{%load static %}
+{%block topblurb%}
+<h1>Institutional Investment Manager - They do not have Cusips they buy Cusips </h1>
+{%endblock%}
+
+{% block content %}
+
+
+  <section id="body_cik" class="container-fluid">
+
+      <table id="table_id" class="table">
+
+      <thead>
+        <tr>
+
+
+            <th scope='col'>CIK</th>
+            <th scope='col'>NAME</th>
+            <th scope='col'>TICKER</th>
+
+
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for value in object_list%}
+        <tr>
+
+            <td><a href="{{value.get_investor_url}}">{{value.long_cik}}</a></td>
+            <td><a href="{{value.get_investor_url}}">{{value.investor}}</a></td>
+            <td><a href="{{value.get_investor_url}}">{{value.ticker}}</a></td>
+
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+
+   </section>
+
+{%endblock%}
+
+{% block scripts %}
+
+
+    <script charset="utf-8" src="{% static 'script/datatable.js' %}"></script>
+
+{%endblock%}

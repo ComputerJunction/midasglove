@@ -29,9 +29,10 @@
         <tr>
 
             <td><a href="{{value.get_absolute_url}}">{{value.name}}</a></td>
-            <td><a href="{{value.get_absolute_url}}">{{value.long_cik}}</a></td>
-            <td><a href="{{value.get_absolute_url}}">{{value.issuance}}</a></td>
-            <td><a href="{{value.get_absolute_url}}">{{value.issuance_desc}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.cik_id.long_cik}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.cusip_id.cusip}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.cusip_id.desc_cusip}}</a></td>
+
 
 
         </tr>
@@ -42,6 +43,13 @@
 
     </table>
 
+
+{%endblock%}
+
+{% block scripts %}
+
+
+    <script charset="utf-8" src="{% static 'script/datatable.js' %}"></script>
 
 {%endblock%}
 

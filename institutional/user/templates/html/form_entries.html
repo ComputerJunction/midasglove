@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{%load static %}
+
+{%block topblurb%}
+<h1>Selection of - Cusips - {{value.cik_id.investor}} - Links will link to a Graph of Who Owns this Cusip</h1>
+<h1>{{name}}</h1>
+{%endblock%}
+
+{% block content %}
+<table id="table_id" class="table">
+
+      <thead>
+        <tr>
+
+
+            <th scope='col'>CUSIP NAME</th>
+            <th scope='col'>CUSIP</th>
+            <th scope='col'>CUSIP DESC</th>
+            <th scope='col'>SHARES</th>
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for value in object_list%}
+        <tr>
+
+            <td><a href="{{value.get_absolute_url}}">{{value.cusip.cikcusip.name}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.cusip.cusip}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.cusip.desc_cusip}}</a></td>
+            <td><a href="{{value.get_absolute_url}}">{{value.shares}}</a></td>
+
+
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+
+
+{%endblock%}
+
+{% block scripts %}
+
+
+    <script charset="utf-8" src="{% static 'script/datatable.js' %}"></script>
+
+{%endblock%}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{%load static %}
+{%block topblurb%}
+<h1>Specific SIC 10-K </h1>
+{%endblock%}
+
+{% block content %}
+
+
+  <section id="body_cik" class="container-fluid">
+
+      <table id="table_id">
+
+      <thead>
+        <tr>
+
+            {%for value in headers%}
+            <th scope='col'>{{value}}</th>
+            {% endfor %}
+
+
+
+        </tr>
+
+
+
+      </thead>
+      <tbody>
+
+        {%for key, vals in values.items %}
+        <tr>
+
+            <td>{{key}}</td>
+            {% for value in vals %}
+            <td>{{value}}</td>
+            {% endfor %}
+
+        </tr>
+        {% endfor %}
+
+
+      </tbody>
+
+    </table>
+
+   </section>
+
+{%endblock%}
+
+{% block scripts %}
+
+
+    <script charset="utf-8" src="{% static 'script/datatable.js' %}"></script>
+
+{%endblock%}
+

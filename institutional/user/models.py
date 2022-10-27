@@ -119,9 +119,9 @@ class DjangoSession(models.Model):
 ###########################################
 
 class AppleTest(models.Model):
-    cik = models.CharField(max_length=20, blank=True, primary_key = True)
-    shares = models.CharField(max_length=100, blank=True, null=True)
-    report_date = models.CharField(max_length=100, blank=True, null=True)
+    investor = models.CharField(max_length=100, blank=True, primary_key = True)
+    shares = models.CharField(max_length=10, blank=True, null=True)
+    form_date = models.CharField(max_length=20, blank=True, null=True)
 
     @classmethod
     def return_df(self):
@@ -144,6 +144,8 @@ class AppleTest(models.Model):
     @classmethod
     def graph(self):
 
+        label_in_js = 'name'
+
         obj = AppleTest.objects.all().values()
 
         cik = defaultdict(dict)
@@ -154,11 +156,11 @@ class AppleTest(models.Model):
 
             for inner in d:
 
-                if inner == 'cik':
+                if inner == 'investor':
 
-                    if d['report_date'] in ['19990630', '19991231']:
+                    if d['form_date'] in ['19990630', '19991231']:
 
-                        cik[d[inner]][d['report_date']] = int(float(d['shares']))
+                        cik[d[inner]][d['form_date']] = int(float(d['shares']))
 
         for j in cik:
 
@@ -166,7 +168,7 @@ class AppleTest(models.Model):
 
             if len(cik[j]) > 1:
 
-                cik[j]['name'] = j
+                cik[j][label_in_js] = j
                 arr.append(cik[j])
 
 
@@ -178,6 +180,70 @@ class AppleTest(models.Model):
     class Meta:
         managed = False
         db_table = 'apple_test'
+
+class MicroTest(models.Model):
+    investor = models.CharField(max_length=100, blank=True, primary_key = True)
+    shares = models.CharField(max_length=10, blank=True, null=True)
+    form_date = models.CharField(max_length=20, blank=True, null=True)
+
+    @classmethod
+    def return_df(self):
+
+        obj = MicroTest.objects.all()
+
+        df = read_frame(obj)
+
+        return df
+
+    @classmethod
+    def return_json(self):
+
+        df = self.return_df()
+
+        js = df.to_json()
+
+        return js
+
+    @classmethod
+    def graph(self):
+
+        label_in_js = 'name'
+
+        obj = MicroTest.objects.all().values()
+
+        cik = defaultdict(dict)
+
+        arr = []
+
+        for d in obj:
+
+            for inner in d:
+
+                if inner == 'investor':
+
+                    if d['form_date'] in ['19990630', '19991231']:
+
+                        cik[d[inner]][d['form_date']] = int(float(d['shares']))
+
+        for j in cik:
+
+
+
+            if len(cik[j]) > 1:
+
+                cik[j][label_in_js] = j
+                arr.append(cik[j])
+
+
+        return dumps(arr)
+
+
+
+
+    class Meta:
+        managed = False
+        db_table = 'micro_test'
+
 
 class BeaCommodity(models.Model):
     commodity_code = models.CharField(max_length=10, blank=True, null=True)
@@ -216,6 +282,7 @@ class Cik(models.Model):
     investor = models.CharField(max_length=500, blank=True, null=True)
     long_cik = models.CharField(max_length=15, blank=True, null=True)
     ticker = models.CharField(max_length=12, blank=True, null=True)
+    investors = models.BigIntegerField()
 
     def __str__(self):
 
@@ -225,6 +292,10 @@ class Cik(models.Model):
 
         return reverse('cik_single', args=[str(self.id)])
 
+    def get_investor_url(self):
+
+        return reverse('form_entries', args=[str(self.id)])
+
     class Meta:
         managed = False
         db_table = 'cik'
@@ -233,23 +304,40 @@ class Cusip(models.Model):
 
     id = models.BigAutoField(primary_key=True)
 
-    short_issuance = models.CharField(max_length=7, blank=True, null=True)
-    issuance = models.CharField(max_length=10, blank=True, null=True)
-    issuance_desc = models.CharField(max_length=500, blank=True, null=True)
-
-    cik_id = models.ForeignKey('Cik', db_column='cik_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Cik.id+')
+    short_cusip = models.CharField(max_length=7, blank=True, null=True)
+    cusip = models.CharField(max_length=10, blank=True, null=True)
+    desc_cusip = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
 
-        return f" Cusip Name:{self.sec_name} - Cusip Number:{self.issuance}"
+        return f"Cusip Number:{self.cusip} - Desc - {self.desc_cusip}"
 
     def get_absolute_url(self):
 
-        return reverse('ii_single', args=[str(self.id)])
+        pass
 
     class Meta:
         managed = False
         db_table = 'cusip'
+
+
+class CikCusip(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    cik_id = models.ForeignKey('Cik', db_column='cik_id', on_delete=models.DO_NOTHING, db_index=False, related_name='Cik.id')
+    cusip_id = models.ForeignKey('Cusip', db_column='cusip_id', on_delete=models.DO_NOTHING, db_index=False, related_name = "Cusip.id")
+    name = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+
+        return f"{self.cik_id} - {self.cusip_id} -Cusip Name {self.name}"
+
+    def get_absolute_url(self):
+        pass
+        #return reverse('landing', args=[str(self.id)])
+
+    class Meta:
+        managed = False
+        db_table = 'cik_cusip'
 
 class Dates(models.Model):
 
@@ -286,20 +374,20 @@ class FileType(models.Model):
         managed = False
         db_table = 'file_type'
 
-class Form13F(models.Model):
+class Form(models.Model):
 
     id = models.BigAutoField(db_column='id', primary_key=True)
     shares = models.CharField(max_length=50, blank=True, null=True)
 
     cik_id = models.ForeignKey('Cik', db_column='cik_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Cik.id+')
-    cusip = models.ForeignKey('Cusip', db_column='cusip_id', on_delete=models.DO_NOTHING, db_index=False, related_name = "Cusip.issuance+")
+    cusip = models.ForeignKey('Cusip', db_column='cusip_id', on_delete=models.DO_NOTHING, db_index=False, related_name = "Cusip.id+")
     #report_date_id = models.ForeignKey('Dates', db_column='report_date_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Dates.id+')
     #file_date_id =models.ForeignKey('Dates', db_column='file_date_id', on_delete=models.DO_NOTHING, db_index=True, related_name='Dates.id+')
     #file_type_id = models.ForeignKey('FileType', db_column='file_type_id', on_delete=models.DO_NOTHING, db_index=True, related_name='FileType.id+')
 
     def __str__(self):
 
-        return f"SHARES: {self.shares} - {self.cusip}"
+        return f"SHARES: {self.shares} - CUSIP {self.cusip} - CIK {self.cik_id}"
 
     def get_absolute_url(self):
         pass
@@ -307,7 +395,7 @@ class Form13F(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'form13f'
+        db_table = 'form'
 
 class IndustryValues(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -327,6 +415,35 @@ class IndustryValues(models.Model):
         managed = False
         db_table = 'industry_values'
 
+
+class NumTest(models.Model):
+
+    value = models.CharField(max_length=100, blank=True, null=True)
+    tag = models.CharField(max_length=257, blank=True, null=True)
+    name = models.CharField(max_length=150, blank=True, primary_key=True)
+
+    @classmethod
+    def table(self):
+
+        b = NumTest.objects.all()
+
+        b = read_frame(b)
+
+        b = b.drop_duplicates(subset=['name','tag'], keep='last')
+
+        b = b.pivot(index='name',columns='tag', values='value')
+
+        headers = list(b.columns)
+
+        values = b.T.to_dict(orient='list')
+
+        return {'headers':headers, 'values':values}
+
+
+
+    class Meta:
+        managed = False
+        db_table = 'num_test'
 
 class SicNaics(models.Model):
     id = models.BigAutoField(primary_key=True)
